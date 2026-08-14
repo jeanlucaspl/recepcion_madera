@@ -26,6 +26,7 @@ function init() {
   }
 
   const cur = getCurrentMonth() || months[months.length - 1];
+  seedIfEmpty(cur);
   loadMonth(cur);
   bindEvents();
 }
@@ -37,6 +38,7 @@ function loadMonth(key) {
   state.month = month;
   state.lastDay = lastDayOfMonth(year, month);
   setCurrentMonth(key);
+  seedIfEmpty(key);
   clipTodayForCurrentMonth();
   render();
 }
