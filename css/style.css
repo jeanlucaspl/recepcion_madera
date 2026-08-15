@@ -336,6 +336,83 @@ select:focus, input:focus { outline: 2px solid var(--wood-light); }
 
 .flex-gap { display: flex; gap: 8px; flex-wrap: wrap; }
 
+/* ─── Filtro camas rango ────────────────────────────────────────────────── */
+.camas-range { display: flex; align-items: center; gap: 4px; }
+.camas-range select { width: 56px; }
+.range-sep { color: var(--gray); font-size: 12px; }
+
+/* ─── Barra acciones ────────────────────────────────────────────────────── */
+.actions-bar { margin-bottom: 10px; }
+.btn-wood { background: var(--wood); color: #fff; }
+.btn-wood:hover { background: var(--wood-dark); }
+
+/* ─── Modal reserva general ─────────────────────────────────────────────── */
+#modal-multi {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: min(92vw, 560px);
+  max-height: 85vh;
+  overflow-y: auto;
+  z-index: 101;
+  box-shadow: 0 8px 32px rgba(0,0,0,.3);
+}
+
+.multi-search-wrap { position: relative; margin-bottom: 12px; }
+.multi-search-wrap input { width: 100%; }
+
+.multi-suggestions {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: #fff;
+  border: 1px solid #D1C4A8;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.multi-sug-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--cream2);
+}
+.multi-sug-item:last-child { border-bottom: none; }
+.multi-sug-item:hover { background: var(--cream); }
+.multi-sug-name { font-weight: 700; color: var(--wood-dark); }
+.multi-sug-tipo { font-size: 11px; color: var(--gray); }
+
+.multi-room-row {
+  background: var(--cream);
+  border: 1px solid var(--cream2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.multi-row-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.multi-row-name { font-weight: 700; color: var(--wood-dark); flex: none; }
+.multi-row-tipo { font-size: 12px; color: var(--gray); flex: 1; }
+
+.multi-row-fields {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.multi-row-fields .form-field { min-width: 70px; }
+
 /* ─── Responsive ───────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .room-row {

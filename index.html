@@ -43,23 +43,38 @@
       </select>
     </div>
     <div class="filter-group">
-      <label for="f-camas">Camas mínimas</label>
-      <select id="f-camas">
-        <option value="">Todas</option>
-        <option value="1">1+</option>
-        <option value="2">2+</option>
-        <option value="3">3+</option>
-        <option value="4">4+</option>
-        <option value="5">5</option>
-      </select>
+      <label>Camas</label>
+      <div class="camas-range">
+        <select id="f-camas-min">
+          <option value="">Mín</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <span class="range-sep">–</span>
+        <select id="f-camas-max">
+          <option value="">Máx</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
     </div>
     <div class="filter-group">
       <label for="f-bloque">Bloque</label>
       <select id="f-bloque">
         <option value="">Todos</option>
         <option value="1">Bloque 1</option>
-        <option value="2">Bloque 2 (Bungalós)</option>
+        <option value="2">Bloque 2</option>
       </select>
+    </div>
+    <div class="filter-group">
+      <label for="f-nombre">Habitación</label>
+      <input type="text" id="f-nombre" placeholder="Nombre..." style="width:130px;">
     </div>
     <div class="filter-group">
       <label for="f-aire">Aire acond.</label>
@@ -72,6 +87,10 @@
     <button id="btn-clear-filters" class="btn-secondary" style="background:var(--wood-light);color:#fff;align-self:flex-end;">
       Limpiar filtros
     </button>
+  </div>
+
+  <div class="actions-bar">
+    <button class="btn-wood" onclick="openMultiModal()">+ Reserva general</button>
   </div>
 
   <div id="room-list"></div>
@@ -102,15 +121,26 @@
       </select>
     </div>
     <div class="filter-group">
-      <label for="s-camas">Camas mínimas</label>
-      <select id="s-camas">
-        <option value="">Cualquiera</option>
-        <option value="1">1+</option>
-        <option value="2">2+</option>
-        <option value="3">3+</option>
-        <option value="4">4+</option>
-        <option value="5">5</option>
-      </select>
+      <label>Camas</label>
+      <div class="camas-range">
+        <select id="s-camas-min">
+          <option value="">Mín</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <span class="range-sep">–</span>
+        <select id="s-camas-max">
+          <option value="">Máx</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
     </div>
     <button id="btn-search" class="btn-primary" style="align-self:flex-end;">Buscar</button>
   </div>
@@ -175,6 +205,24 @@
     </div>
     <button class="btn-primary" onclick="submitNewMonth()">Crear mes</button>
   </div>
+</div>
+
+<!-- ─── Modal: Reserva general ──────────────────────────────────────────── -->
+<div id="modal-multi" class="hidden">
+  <div class="modal-header">
+    <h2>Reserva general</h2>
+    <button class="btn-close-modal" onclick="closeMultiModal()">✕</button>
+  </div>
+  <p class="modal-subtitle">Busca y agrega habitaciones, luego asigna fechas a cada una.</p>
+
+  <div class="multi-search-wrap">
+    <input type="text" id="multi-search" placeholder="Buscar habitación por nombre..." autocomplete="off" oninput="renderMultiSuggestions()">
+    <div id="multi-suggestions" class="multi-suggestions hidden"></div>
+  </div>
+
+  <div id="multi-list"></div>
+
+  <button class="btn-primary" style="margin-top:14px;width:100%;" onclick="submitMultiBooking()">Confirmar reserva general</button>
 </div>
 
 <!-- ─── Scripts ───────────────────────────────────────────────────────────── -->

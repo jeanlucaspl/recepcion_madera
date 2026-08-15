@@ -9,7 +9,9 @@ let state = {
   lastDay: null,
   tab: 'disponibilidad',
   filterTipo: '',
-  filterCamas: '',
+  filterCamasMin: '',
+  filterCamasMax: '',
+  filterNombre: '',
   filterBloque: '',
   filterAire: '',
 };
@@ -96,8 +98,13 @@ function getToday() {
 
 function filteredRooms() {
   return ROOMS.filter(r => {
+    if (state.filterNombre && !r.nombre.toLowerCase().includes(state.filterNombre.toLowerCase())) return false;
     if (state.filterBloque && r.bloque !== parseInt(state.filterBloque)) return false;
-    if (state.filterCamas && r.camas < parseInt(state.filterCamas)) return false;
+    if (state.filterCamasMin || state.filterCamasMax) {
+      const min = parseInt(state.filterCamasMin) || 1;
+      const max = parseInt(state.filterCamasMax) || 99;
+      if (r.camas < min || r.camas > max) return false;
+    }
     if (state.filterAire === 'si' && !r.aire) return false;
     if (state.filterAire === 'no' && r.aire) return false;
     if (state.filterTipo) {
@@ -157,7 +164,8 @@ function runSearch() {
   const ci = parseInt(document.getElementById('s-checkin').value);
   const co = parseInt(document.getElementById('s-checkout').value);
   const tipo = document.getElementById('s-tipo').value;
-  const camas = document.getElementById('s-camas').value;
+  const camasMin = document.getElementById('s-camas-min').value;
+  const camasMax = document.getElementById('s-camas-max').value;
   const results = document.getElementById('search-results');
 
   if (!ci || !co || ci >= co) {
@@ -174,7 +182,11 @@ function runSearch() {
       const tipos = tiposBases(room.tipo);
       if (!tipos.has(tipo)) return false;
     }
-    if (camas && room.camas < parseInt(camas)) return false;
+    if (camasMin || camasMax) {
+      const min = parseInt(camasMin) || 1;
+      const max = parseInt(camasMax) || 99;
+      if (room.camas < min || room.camas > max) return false;
+    }
     const bookings = getBookings(state.monthKey, room.id);
     return isAvailableForRange(bookings, ci, co, state.year, state.month);
   });
@@ -325,17 +337,19 @@ function confirmDeleteMonth() {
 // ─── Filtros ─────────────────────────────────────────────────────────────
 
 function applyFilters() {
-  state.filterTipo   = document.getElementById('f-tipo').value;
-  state.filterCamas  = document.getElementById('f-camas').value;
-  state.filterBloque = document.getElementById('f-bloque').value;
-  state.filterAire   = document.getElementById('f-aire').value;
+  state.filterTipo      = document.getElementById('f-tipo').value;
+  state.filterCamasMin  = document.getElementById('f-camas-min').value;
+  state.filterCamasMax  = document.getElementById('f-camas-max').value;
+  state.filterNombre    = document.getElementById('f-nombre').value.trim();
+  state.filterBloque    = document.getElementById('f-bloque').value;
+  state.filterAire      = document.getElementById('f-aire').value;
   renderRooms();
 }
 
 function clearFilters() {
-  ['f-tipo','f-camas','f-bloque','f-aire'].forEach(id =>
+  ['f-tipo','f-camas-min','f-camas-max','f-nombre','f-bloque','f-aire'].forEach(id =>
     document.getElementById(id).value = '');
-  state.filterTipo = state.filterCamas = state.filterBloque = state.filterAire = '';
+  state.filterTipo = state.filterCamasMin = state.filterCamasMax = state.filterNombre = state.filterBloque = state.filterAire = '';
   renderRooms();
 }
 
@@ -350,14 +364,126 @@ function bindEvents() {
     if (e.target === document.getElementById('modal-overlay')) {
       closeModal();
       closeNewMonthModal();
+      closeMultiModal();
     }
   });
   document.querySelectorAll('.tab-btn').forEach(b =>
     b.addEventListener('click', () => switchTab(b.dataset.tab)));
   document.getElementById('btn-search').addEventListener('click', runSearch);
   document.getElementById('btn-clear-filters').addEventListener('click', clearFilters);
-  ['f-tipo','f-camas','f-bloque','f-aire'].forEach(id =>
+  ['f-tipo','f-camas-min','f-camas-max','f-bloque','f-aire'].forEach(id =>
     document.getElementById(id).addEventListener('change', applyFilters));
+  document.getElementById('f-nombre').addEventListener('input', applyFilters);
+}
+
+// ─── Reserva general (multi-habitación) ──────────────────────────────────
+
+let multiRooms = []; // array de roomIds seleccionados
+
+function openMultiModal() {
+  multiRooms = [];
+  renderMultiList();
+  document.getElementById('multi-search').value = '';
+  document.getElementById('multi-suggestions').classList.add('hidden');
+  document.getElementById('modal-multi').classList.remove('hidden');
+  document.getElementById('modal-overlay').classList.remove('hidden');
+}
+
+function closeMultiModal() {
+  document.getElementById('modal-multi').classList.add('hidden');
+  document.getElementById('modal-overlay').classList.add('hidden');
+}
+
+function renderMultiSuggestions() {
+  const q = document.getElementById('multi-search').value.trim().toLowerCase();
+  const box = document.getElementById('multi-suggestions');
+  if (!q) { box.classList.add('hidden'); return; }
+
+  const matches = ROOMS.filter(r =>
+    r.nombre.toLowerCase().includes(q) && !multiRooms.includes(r.id)
+  ).slice(0, 8);
+
+  if (!matches.length) { box.classList.add('hidden'); return; }
+
+  box.innerHTML = matches.map(r => `
+    <div class="multi-sug-item" onclick="addMultiRoom('${r.id}')">
+      <span class="multi-sug-name">${r.nombre}</span>
+      <span class="multi-sug-tipo">${tipoLabel(r.tipo)} · ${r.camas} ${r.camas === 1 ? 'cama' : 'camas'}</span>
+    </div>`).join('');
+  box.classList.remove('hidden');
+}
+
+function addMultiRoom(roomId) {
+  if (multiRooms.includes(roomId)) return;
+  multiRooms.push(roomId);
+  document.getElementById('multi-search').value = '';
+  document.getElementById('multi-suggestions').classList.add('hidden');
+  renderMultiList();
+}
+
+function removeMultiRoom(roomId) {
+  multiRooms = multiRooms.filter(id => id !== roomId);
+  renderMultiList();
+}
+
+function renderMultiList() {
+  const container = document.getElementById('multi-list');
+  if (!multiRooms.length) {
+    container.innerHTML = '<p class="empty" style="margin-top:12px;">Aún no hay habitaciones seleccionadas.</p>';
+    return;
+  }
+  container.innerHTML = multiRooms.map(roomId => {
+    const room = ROOMS.find(r => r.id === roomId);
+    return `
+      <div class="multi-room-row">
+        <div class="multi-row-header">
+          <span class="multi-row-name">${room.nombre}</span>
+          <span class="multi-row-tipo">${tipoLabel(room.tipo)} · ${room.camas} ${room.camas === 1 ? 'cama' : 'camas'}</span>
+          <button class="btn-del-booking" onclick="removeMultiRoom('${roomId}')">✕</button>
+        </div>
+        <div class="multi-row-fields">
+          <div class="form-field">
+            <label>Entrada</label>
+            <input type="number" id="mi-ci-${roomId}" min="1" max="${state.lastDay}" placeholder="Día">
+          </div>
+          <div class="form-field">
+            <label>Salida</label>
+            <input type="number" id="mi-co-${roomId}" min="2" max="${state.lastDay + 1}" placeholder="Día">
+          </div>
+          <div class="form-field" style="flex:2;">
+            <label>Huésped</label>
+            <input type="text" id="mi-hu-${roomId}" placeholder="Nombre (opcional)">
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function submitMultiBooking() {
+  if (!multiRooms.length) { alert('Agrega al menos una habitación.'); return; }
+
+  const items = multiRooms.map(roomId => ({
+    roomId,
+    ci: parseInt(document.getElementById(`mi-ci-${roomId}`).value),
+    co: parseInt(document.getElementById(`mi-co-${roomId}`).value),
+    huesped: document.getElementById(`mi-hu-${roomId}`).value.trim(),
+  }));
+
+  for (const { roomId, ci, co } of items) {
+    const room = ROOMS.find(r => r.id === roomId);
+    const bookings = getBookings(state.monthKey, roomId);
+    if (!isBookingValid(bookings, ci, co, state.lastDay)) {
+      alert(`Fechas inválidas o solapadas en "${room.nombre}".`);
+      return;
+    }
+  }
+
+  for (const { roomId, ci, co, huesped } of items) {
+    addBooking(state.monthKey, roomId, ci, co, huesped);
+  }
+
+  closeMultiModal();
+  renderRooms();
 }
 
 // ─── Arranque ─────────────────────────────────────────────────────────────
