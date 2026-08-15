@@ -1,6 +1,5 @@
 // Catálogo de habitaciones activas del Hotel Madera Labrada
 // Tipos: S=Simple, M=Matrimonial, D=Doble, T=Triple, C=Cuádruple, Q=Quíntuple
-// Bloque 2 (bungalós) usa sufijo W en tipo original → se normaliza igual
 // Habitaciones inactivas excluidas: 102, 103, CAPIRONA, UMARI
 
 const ROOMS = [
@@ -12,9 +11,9 @@ const ROOMS = [
   { id: '201',       nombre: '201',       tipo: 'M',     bloque: 1, piso: 2,        camas: 1, aire: false, frigobar: true  },
   { id: '202',       nombre: '202',       tipo: 'M',     bloque: 1, piso: 2,        camas: 2, aire: false, frigobar: true  },
   { id: '203',       nombre: '203',       tipo: 'D-M',   bloque: 1, piso: 2,        camas: 2, aire: false, frigobar: true  },
-  { id: '204',       nombre: '204',       tipo: 'M',     bloque: 1, piso: 2,        camas: 1, aire: false, frigobar: true  },
-  { id: '205',       nombre: '205',       tipo: 'D-M',   bloque: 1, piso: 2,        camas: 1, aire: false, frigobar: false },
-  { id: '206',       nombre: '206',       tipo: 'D-M',   bloque: 1, piso: 2,        camas: 1, aire: false, frigobar: false },
+  { id: '204',       nombre: '204',       tipo: 'M',     bloque: 1, piso: 2,        camas: 2, aire: false, frigobar: true  },
+  { id: '205',       nombre: '205',       tipo: 'D-M',   bloque: 1, piso: 2,        camas: 2, aire: false, frigobar: false },
+  { id: '206',       nombre: '206',       tipo: 'D-M',   bloque: 1, piso: 2,        camas: 2, aire: false, frigobar: false },
   // ── BLOQUE 1 – Con nombre ─────────────────────────────────────
   { id: 'PALMITO',   nombre: 'PALMITO',   tipo: 'T',     bloque: 1, piso: 1,        camas: 3, aire: false, frigobar: false },
   { id: 'MIRADOR',   nombre: 'MIRADOR',   tipo: 'C-T',   bloque: 1, piso: 1,        camas: 4, aire: false, frigobar: true  },
@@ -41,23 +40,23 @@ const ROOMS = [
   { id: 'LIRIO',     nombre: 'LIRIO',     tipo: 'T-D',   bloque: 1, piso: 3,        camas: 3, aire: true,  frigobar: true  },
   { id: 'RETAMA',    nombre: 'RETAMA',    tipo: 'T-D',   bloque: 1, piso: 3,        camas: 3, aire: true,  frigobar: true  },
   { id: 'YARINA',    nombre: 'YARINA',    tipo: 'D-M',   bloque: 1, piso: 3,        camas: 2, aire: true,  frigobar: true  },
-  { id: 'AGUAJE',    nombre: 'AGUAJE',    tipo: 'D-M',   bloque: 1, piso: 1,        camas: 1, aire: false, frigobar: true  },
+  { id: 'AGUAJE',    nombre: 'AGUAJE',    tipo: 'D-M',   bloque: 1, piso: 1,        camas: 2, aire: false, frigobar: true  },
   { id: 'BOMBONAJE', nombre: 'BOMBONAJE', tipo: 'T-D',   bloque: 1, piso: 1,        camas: 3, aire: false, frigobar: true  },
-  { id: 'CAMUCAMU',  nombre: 'CAMU CAMU', tipo: 'D-M',   bloque: 1, piso: 1,        camas: 1, aire: false, frigobar: true  },
+  { id: 'CAMUCAMU',  nombre: 'CAMU CAMU', tipo: 'D-M',   bloque: 1, piso: 1,        camas: 2, aire: false, frigobar: true  },
   { id: 'CAIMITO',   nombre: 'CAIMITO',   tipo: 'D-M',   bloque: 1, piso: 1,        camas: 2, aire: false, frigobar: false },
   { id: 'MAGNOLIA',  nombre: 'MAGNOLIA',  tipo: 'Q-C-T', bloque: 1, piso: 3,        camas: 5, aire: false, frigobar: true  },
   { id: 'CHONTA',    nombre: 'CHONTA',    tipo: 'T-D',   bloque: 1, piso: 1,        camas: 3, aire: false, frigobar: false },
-  { id: 'DALEDALE',  nombre: 'DALE DALE', tipo: 'D-M',   bloque: 1, piso: 2,        camas: 1, aire: false, frigobar: false },
+  { id: 'DALEDALE',  nombre: 'DALE DALE', tipo: 'D-M',   bloque: 1, piso: 2,        camas: 2, aire: false, frigobar: false },
   { id: 'EUCALIPTO', nombre: 'EUCALIPTO', tipo: 'T-D',   bloque: 1, piso: 2,        camas: 3, aire: false, frigobar: false },
   { id: 'FUCSIA',    nombre: 'FUCSIA',    tipo: 'T-D',   bloque: 1, piso: 2,        camas: 3, aire: false, frigobar: false },
-  { id: 'GERANIOS',  nombre: 'GERANIOS',  tipo: 'D-M',   bloque: 1, piso: 2,        camas: 1, aire: false, frigobar: true  },
-  { id: 'HUABA',     nombre: 'HUABA',     tipo: 'M',     bloque: 1, piso: 3,        camas: 1, aire: false, frigobar: false },
+  { id: 'GERANIOS',  nombre: 'GERANIOS',  tipo: 'D-M',   bloque: 1, piso: 2,        camas: 2, aire: false, frigobar: true  },
+  { id: 'HUABA',     nombre: 'HUABA',     tipo: 'M',     bloque: 1, piso: 3,        camas: 2, aire: false, frigobar: false },
   { id: 'INDANO',    nombre: 'INDANO',    tipo: 'T-D',   bloque: 1, piso: 3,        camas: 3, aire: false, frigobar: false },
   { id: 'JAGUA',     nombre: 'JAGUA',     tipo: 'C-T',   bloque: 1, piso: 3,        camas: 4, aire: false, frigobar: false },
   { id: 'KOKONA',    nombre: 'KOKONA',    tipo: 'M',     bloque: 1, piso: 3,        camas: 1, aire: false, frigobar: false },
   { id: 'SHAPAJA',   nombre: 'SHAPAJA',   tipo: 'T-D',   bloque: 1, piso: 1,        camas: 3, aire: false, frigobar: false },
   { id: 'LAVANDA',   nombre: 'LAVANDA',   tipo: 'T-D',   bloque: 1, piso: 3,        camas: 3, aire: false, frigobar: true  },
-  // ── BLOQUE 2 – Bungalós (piso 1) ─────────────────────────────
+  // ── BLOQUE 2 (piso 1) ────────────────────────────────────────
   { id: 'ARDILLA',   nombre: 'ARDILLA',   tipo: 'C',     bloque: 2, piso: 1,        camas: 5, aire: false, frigobar: false },
   { id: 'AÑUJE',     nombre: 'AÑUJE',     tipo: 'Q',     bloque: 2, piso: 1,        camas: 5, aire: false, frigobar: false },
   { id: 'BECERRO',   nombre: 'BECERRO',   tipo: 'C',     bloque: 2, piso: 1,        camas: 5, aire: false, frigobar: false },
@@ -67,7 +66,7 @@ const ROOMS = [
   { id: 'PANTERA',   nombre: 'PANTERA',   tipo: 'D',     bloque: 2, piso: 1,        camas: 2, aire: false, frigobar: false },
   { id: 'ÑANDU',     nombre: 'ÑANDÚ',     tipo: 'D',     bloque: 2, piso: 1,        camas: 2, aire: false, frigobar: false },
   { id: 'MAPACHE',   nombre: 'MAPACHE',   tipo: 'D',     bloque: 2, piso: 1,        camas: 2, aire: false, frigobar: false },
-  // ── BLOQUE 2 – Bungalós (piso 2) ─────────────────────────────
+  // ── BLOQUE 2 (piso 2) ────────────────────────────────────────
   { id: 'DELFIN',    nombre: 'DELFÍN',    tipo: 'C',     bloque: 2, piso: 2,        camas: 5, aire: false, frigobar: false },
   { id: 'CHICHARRA', nombre: 'CHICHARRA', tipo: 'T',     bloque: 2, piso: 2,        camas: 4, aire: false, frigobar: false },
   { id: 'ESCARABAJO',nombre: 'ESCARABAJO',tipo: 'T',     bloque: 2, piso: 2,        camas: 3, aire: false, frigobar: false },
@@ -77,7 +76,7 @@ const ROOMS = [
   { id: 'RONSOCO',   nombre: 'RONSOCO',   tipo: 'D',     bloque: 2, piso: 2,        camas: 2, aire: false, frigobar: false },
   { id: 'OVEJA',     nombre: 'OVEJA',     tipo: 'D',     bloque: 2, piso: 2,        camas: 2, aire: false, frigobar: false },
   { id: 'NUTRIA',    nombre: 'NUTRIA',    tipo: 'D',     bloque: 2, piso: 2,        camas: 2, aire: false, frigobar: false },
-  // ── BLOQUE 2 – Bungalós (piso 3) ─────────────────────────────
+  // ── BLOQUE 2 (piso 3) ────────────────────────────────────────
   { id: 'GARZA',     nombre: 'GARZA',     tipo: 'C',     bloque: 2, piso: 3,        camas: 4, aire: false, frigobar: false },
   { id: 'GUACAMAYO', nombre: 'GUACAMAYO', tipo: 'Q',     bloque: 2, piso: 3,        camas: 5, aire: false, frigobar: false },
   { id: 'GORRION',   nombre: 'GORRIÓN',   tipo: 'C',     bloque: 2, piso: 3,        camas: 5, aire: false, frigobar: false },
@@ -87,11 +86,11 @@ const ROOMS = [
   { id: 'SALTAMONTE',nombre: 'SALTAMONTE',tipo: 'M',     bloque: 2, piso: 3,        camas: 2, aire: false, frigobar: false },
   { id: 'PUMA',      nombre: 'PUMA',      tipo: 'D',     bloque: 2, piso: 3,        camas: 2, aire: false, frigobar: false },
   // ── BLOQUE 2 – Bungalós ──────────────────────────────────────
-  { id: 'IGUANA',    nombre: 'IGUANA',    tipo: 'M',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false },
-  { id: 'IZULA',     nombre: 'IZULA',     tipo: 'D',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false },
-  { id: 'JAGUAR',    nombre: 'JAGUAR',    tipo: 'M',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false },
-  { id: 'JABALI',    nombre: 'JABALÍ',    tipo: 'M',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false },
-  { id: 'LORO',      nombre: 'LORO',      tipo: 'M',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false },
+  { id: 'IGUANA',    nombre: 'IGUANA',    tipo: 'M',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false, bungalow: true },
+  { id: 'IZULA',     nombre: 'IZULA',     tipo: 'D',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false, bungalow: true },
+  { id: 'JAGUAR',    nombre: 'JAGUAR',    tipo: 'M',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false, bungalow: true },
+  { id: 'JABALI',    nombre: 'JABALÍ',    tipo: 'M',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false, bungalow: true },
+  { id: 'LORO',      nombre: 'LORO',      tipo: 'M',     bloque: 2, piso: 'B',      camas: 2, aire: false, frigobar: false, bungalow: true },
 ];
 
 // Tipos base (sin guión) que puede contener un tipo multi

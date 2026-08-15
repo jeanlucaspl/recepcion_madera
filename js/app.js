@@ -128,7 +128,8 @@ function renderRooms() {
       : '<span class="range-none">Sin disponibilidad</span>';
 
     const badges = [];
-    if (room.bloque === 2) badges.push('<span class="badge badge-bungalo">Bungaló</span>');
+    if (room.bungalow) badges.push('<span class="badge badge-bungalo">Bungaló</span>');
+    else if (room.bloque === 2) badges.push('<span class="badge badge-b2">Bloque 2</span>');
     if (room.aire) badges.push('<span class="badge badge-aire">❄️ Aire</span>');
     if (room.frigobar) badges.push('<span class="badge badge-frig">🧊 Frigobar</span>');
 

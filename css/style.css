@@ -164,6 +164,7 @@ select:focus, input:focus { outline: 2px solid var(--wood-light); }
   font-weight: 600;
 }
 .badge-bungalo { background: #E8D5B7; color: var(--wood-dark); }
+.badge-b2      { background: #F3E8FF; color: #6B21A8; }
 .badge-aire    { background: #DBEAFE; color: #1E40AF; }
 .badge-frig    { background: #D1FAE5; color: #065F46; }
 
