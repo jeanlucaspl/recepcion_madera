@@ -31,6 +31,10 @@
 
   <div class="filters">
     <div class="filter-group">
+      <label for="f-nombre">Habitación</label>
+      <input type="text" id="f-nombre" placeholder="Nombre..." style="width:130px;">
+    </div>
+    <div class="filter-group">
       <label for="f-tipo">Tipo</label>
       <select id="f-tipo">
         <option value="">Todos</option>
@@ -45,7 +49,7 @@
     <div class="filter-group">
       <label>Camas</label>
       <div class="camas-range">
-        <select id="f-camas-min">
+        <select id="f-camas-min" onchange="autoMaxCamas()">
           <option value="">Mín</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -71,10 +75,6 @@
         <option value="1">Bloque 1</option>
         <option value="2">Bloque 2</option>
       </select>
-    </div>
-    <div class="filter-group">
-      <label for="f-nombre">Habitación</label>
-      <input type="text" id="f-nombre" placeholder="Nombre..." style="width:130px;">
     </div>
     <div class="filter-group">
       <label for="f-aire">Aire acond.</label>

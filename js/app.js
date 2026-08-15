@@ -336,6 +336,13 @@ function confirmDeleteMonth() {
 
 // ─── Filtros ─────────────────────────────────────────────────────────────
 
+function autoMaxCamas() {
+  const min = document.getElementById('f-camas-min').value;
+  const maxEl = document.getElementById('f-camas-max');
+  if (min && !maxEl.value) maxEl.value = min;
+  applyFilters();
+}
+
 function applyFilters() {
   state.filterTipo      = document.getElementById('f-tipo').value;
   state.filterCamasMin  = document.getElementById('f-camas-min').value;
